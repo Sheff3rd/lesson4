@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :authorize
-  after_action :broadcast, only: [:create, :update, :update_all, :destroy, :remove_completed]
+  after_action :broadcast, only: [:update_all, :destroy, :remove_completed]
+  before_action :find_task, only: [:update, :edit, :destroy]
 
   def index
     @task = Task.new
@@ -9,15 +10,12 @@ class TasksController < ApplicationController
   def create
     @task = current_list.tasks.build(task_params)
     render(:new) && return unless @task.save
+    broadcast
   end
 
   def update
-    @task = current_list.tasks.find(params[:id])
     render(:edit) && return unless @task.update(task_params)
-  end
-
-  def edit
-    @task = current_list.tasks.find(params[:id])
+    broadcast
   end
 
   def update_all
@@ -25,7 +23,6 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    @task = current_list.tasks.find(params[:id])
     @task.destroy
   end
 
@@ -43,6 +40,10 @@ class TasksController < ApplicationController
     @tasks ||= current_list.tasks.filtered(params[:type]).order("#{sort_column} #{sort_direction}")
   end
   helper_method :tasks
+
+  def find_task
+    @task = current_list.tasks.find(params[:id])
+  end
 
   def broadcast
     ActionCable.server.broadcast("lists_channel_#{current_list.id}", user: current_user.id, action: render_to_string(params[:action]))

@@ -1,6 +1,6 @@
 class Task < ApplicationRecord
   belongs_to :list
-  after_create :increment_counter
+  after_save :increment_counter
   after_destroy :decrement_counter
   validates :title, presence: true,
                     length: { minimum: 3 },
