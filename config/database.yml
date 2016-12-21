@@ -1,12 +1,17 @@
-development: &default
-  adapter: postgresql
-  host: localhost
-  username: postgres
-  password: password
+default: &default
+  adapter: sqlite3
   pool: 5
   timeout: 5000
-  database: todo_dev
+
+development:
+  <<: *default
+  database: db/development.sqlite3
 
 test:
   <<: *default
-  database: todo_test
+  database: db/test.sqlite3
+
+production:
+  <<: *default
+  database: db/production.sqlite3
+

@@ -5,7 +5,6 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
-gem 'pg'
 gem 'puma', '~> 3.0'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'redis', '~> 3.0'
@@ -21,6 +20,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'poltergeist'
   gem 'rspec-rails'
+  gem 'sqlite3'
 end
 
 gem 'database_cleaner', group: :test
@@ -32,6 +32,10 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console'
+end
+
+group :production do
+  gem 'pg'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

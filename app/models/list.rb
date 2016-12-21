@@ -17,4 +17,12 @@ class List < ApplicationRecord
   def all_users
     [user] + users
   end
+
+  def increment_counter!
+    self.update(tasks_count: self.tasks_count.next)
+  end
+
+  def decrement_counter!
+    self.update(tasks_count: self.tasks_count.pred)
+  end
 end

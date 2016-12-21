@@ -1,5 +1,6 @@
 <div class="single-list" id="list_<%= list.id %>">
   <%= link_to list.title, list_tasks_path(list) %>
+  <%= pluralize list.tasks_count, 'task'%>
   <%= link_to '×', list_path(list), method: :delete, remote: true %>
   <ul id='tasks' data-type="">
     <%- list.tasks.first(10).each do |task| %>

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :authorize
-  after_action :broadcast, only: [:update_all, :destroy, :remove_completed]
+  after_action :broadcast, only: [:create, :update, :update_all, :destroy, :remove_completed]
 
   def index
     @task = Task.new
@@ -9,13 +9,11 @@ class TasksController < ApplicationController
   def create
     @task = current_list.tasks.build(task_params)
     render(:new) && return unless @task.save
-    broadcast
   end
 
   def update
     @task = current_list.tasks.find(params[:id])
     render(:edit) && return unless @task.update(task_params)
-    broadcast
   end
 
   def edit
